@@ -10,11 +10,16 @@ from ramdom import randrange
 
 score = 0        # score avant lancer de D
 score_2 = 0      # score après lancer de D
-resultat = 0
+valeur_D = list()
 relance = True
 nb_D = 6
-D_u              # nombre de D qui ont marqués des points
-
+D_u = 0          # nombre de D qui ont marqués des points
+i = 0
 
 
 while relance:
+    while i < nb_D -1:
+        valeur_D.insert(i+1,randrange(1,7))
+        i += 1
+
+
