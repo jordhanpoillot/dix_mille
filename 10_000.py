@@ -28,8 +28,7 @@ def analyseScore(valeur_D):
     numeros_presents=set(valeur_D)
     if valeur_D == [1,2,3,4,5,6]:
         print ("Vous avez effectué une suite, et obtenez 2000 points. Vous pouvez relancer la totalité des dés."
-        score += 2000
-        print("Votre score total passe à : ", score)
+        gain = 2000
     else:
         for nbr in range (1,7):
             quantite=0
@@ -38,19 +37,19 @@ def analyseScore(valeur_D):
                     quantite+=1
             if quantite == 6:
                 if nbr == 1:
-                    print ("Vous avez obtenu 6 dés 1, donnant un score de 2000 points. Vous pouvez relancer la totalité des dés.")
-                    score += 2000
-                    print("Votre score total passe à : ", score)
+                    print ("Vous avez obtenu 6 dés 1, donnant un score de 2000 points. Vous relancez la totalité des dés.")
+                    gain = 2000
                 else:
                     gain = (100 * nbr * 2)
                     print ("Vous avez obtenu 6 dés ", nbr , " donnant un score de ", gain, " points. Vous pouvez relancer la totalité des dés.")
-                    score += gain
-                    print("Votre score total passe à : ", score)
-            elif quantite >= 3:
+            elif 6 > quantite >= 3:
                 if nbr == 1:
                     gain = (1000 + 100 * (quantite-3))
                     print ("Vous avez obtenu ",  quantite, " dés 1, donnant un score de ", gain, " points")
-                else:
+                    elif nbr ==5:
+                    gain = (500 + 50 * (quantite-3))
+                    print ("Vous avez obtenu ", quantite, " dés 5, donnant un score de ", gain, " points")
+                    else:
                     print("Vous avez obtenu ", quantite, " dés ", nbr, ", donnant un score de ", (100 * nbr), " points")
                     gain = (100 * nbr)
                 while True:
