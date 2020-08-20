@@ -34,8 +34,8 @@ def analyseScore(valeur_D):
                     quantite+=1
             if quantite >= 3:
                 if nbr == 1:
-                    print ("Vous avez obtenu ",  quantite, " dés 1, donnant un score de 1000 points")
-                    score_2 = 1000
+                    score_2 = (1000 + 100 * (quantite-3))
+                    print ("Vous avez obtenu ",  quantite, " dés 1, donnant un score de ", score_2, " points")
                 else:
                     print("Vous avez obtenu ", quantite, " dés ", nbr, ", donnant un score de ", (100 * nbr), " points")
                     score_2 = (100 * nbr)
@@ -48,15 +48,12 @@ def analyseScore(valeur_D):
                         print("Vous conservez votre score de : ", score)
                         while True:
                             print("Les valeurs possibles sont :", numeros_presents)
+                            choix=0
                             choix=input("Choisissez une valeur à conserver : ")
                             for numero in numeros_presents:
-                                if rep == numero:
+                                if int(choix) == int(numero):
                                     print("Vous mettez de côté le ", numero)
-                                    #reste à proposer la suite
                                     break
-                                else:
-                                    print("Choisissez une valeur parmis les dés obtenus")
-                                    continue
                         break
                     else:continue
 
