@@ -16,11 +16,22 @@ nb_D = 6
 D_u = 0          # nombre de D qui ont marqués des points
 i = 0
 
+################
+### Methodes ###
+################
+
+def analyseScore(valeur_D):
+    print ("Votre score est : ", valeur_D)
+    #Ici on ajoute le calcul du score
+
+##############
+### Script ###
+##############
 
 while relance:
     while i < nb_D:
         valeur_D.insert(i+1,randrange(1,7))
         i += 1
-    print(valeur_D)
+    analyseScore(valeur_D)
     relance=False
 
