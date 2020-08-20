@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #10_000.py créé par GoT le 18.08.2020--13:15:00
 
-import.os
-from ramdom import randrange
+import os
+from random import randrange
 
 #################################
 ### Déclaration des variables ###
@@ -10,7 +10,7 @@ from ramdom import randrange
 
 score = 0        # score avant lancer de D
 score_2 = 0      # score après lancer de D
-valeur_D = list()
+valeur_D = []
 relance = True
 nb_D = 6
 D_u = 0          # nombre de D qui ont marqués des points
@@ -18,8 +18,9 @@ i = 0
 
 
 while relance:
-    while i < nb_D -1:
+    while i < nb_D:
         valeur_D.insert(i+1,randrange(1,7))
         i += 1
-
+    print(valeur_D)
+    relance=False
 
