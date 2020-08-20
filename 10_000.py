@@ -21,6 +21,7 @@ i = 0
 ################
 
 def analyseScore(valeur_D):
+    valeur_D.sort()
     print ("Résultat des dés : ", valeur_D)
     print("Votre score actuel est de : ", score)
     numeros_presents=set(valeur_D)
@@ -32,7 +33,16 @@ def analyseScore(valeur_D):
             for de in valeur_D:
                 if de == nbr:
                     quantite+=1
-            if quantite >= 3:
+            if quantite == 6:
+                if nbr == 1:
+                    score_2 = 2000
+                    print ("Vous avez obtenu 6 dés 1, donnant un score de 2000 points. Vous pouvez relancer la totalité des dés.")
+                    print("Votre score total passe à : ", ( score + score_2))
+                else:
+                    score_2 = (100 * nbr * 2)
+                    print ("Vous avez obtenu 6 dés ", nbr , " donnant un score de ", score_2, " points. Vous pouvez relancer la totalité des dés.")
+                    print("Votre score total passe à : ", ( score + score_2))
+            elif quantite >= 3:
                 if nbr == 1:
                     score_2 = (1000 + 100 * (quantite-3))
                     print ("Vous avez obtenu ",  quantite, " dés 1, donnant un score de ", score_2, " points")
@@ -42,7 +52,7 @@ def analyseScore(valeur_D):
                 while True:
                     rep=input("Voulez-vous valider ce score ? : (Tappez \"o\" pour valider ou \"n\" pour choisir les dés à relancer)")
                     if rep=="o":
-                        print("Votre score passe à : ", ( score + score_2))
+                        print("Votre score total passe à : ", ( score + score_2))
                         break
                     elif rep=="n":
                         print("Vous conservez votre score de : ", score)
