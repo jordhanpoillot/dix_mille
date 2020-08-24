@@ -1,84 +1,83 @@
 #!/usr/bin/python3
 #10_000.py créé par GoT le 18.08.2020--13:15:00
 
-import os
 from random import randrange
+import collections
 
 #################################
 ### Déclaration des variables ###
 #################################
 
-score = 0        # score avant lancer de D
-score_2 = 0      # score après lancer de D
-valeur_D = []
-relance = True
-nb_D = 6
-D_u = 0          # nombre de D qui ont marqués des points
-i = 0
+# Gestion du score
+score = 0           # Score personnel du joueur avant le lancer de dés
+gain = 0            # Score obtenu sur un tour après le lancer de dés
+
+# Gestion des dés
+valeur_D = []       # La liste représantant le resultat des dés
+nb_D = 6            # Nombre de dés utilisables
+D_u = 0             # Nombre de dés qui ont marqués des points
+
+# Gestion des tours
+tour = 0            # Numéro du premier tour
+nombre_partie = 100 # Nombre de partie pour réaliser des stats
+stats_score = []    # On ajoute le score de chaque partie pour réaliser des stats
 
 ################
 ### Methodes ###
 ################
 
-def analyseScore(valeur_D):
-    gain=0
-    valeur_D.sort()
-    print ("Résultat des dés : ", valeur_D)
-    print("Votre score actuel est de : ", score)
-    numeros_presents=set(valeur_D)
-    if valeur_D == [1,2,3,4,5,6]:
-        print ("Vous avez effectué une suite, et obtenez 2000 points. Vous pouvez relancer la totalité des dés."
-        gain = 2000
-    else:
-        for nbr in range (1,7):
-            quantite=0
-            for de in valeur_D:
-                if de == nbr:
-                    quantite+=1
-            if quantite == 6:
-                if nbr == 1:
-                    print ("Vous avez obtenu 6 dés 1, donnant un score de 2000 points. Vous relancez la totalité des dés.")
-                    gain = 2000
-                else:
-                    gain = (100 * nbr * 2)
-                    print ("Vous avez obtenu 6 dés ", nbr , " donnant un score de ", gain, " points. Vous pouvez relancer la totalité des dés.")
-            elif 6 > quantite >= 3:
-                if nbr == 1:
-                    gain = (1000 + 100 * (quantite-3))
-                    print ("Vous avez obtenu ",  quantite, " dés 1, donnant un score de ", gain, " points")
-                    elif nbr ==5:
-                    gain = (500 + 50 * (quantite-3))
-                    print ("Vous avez obtenu ", quantite, " dés 5, donnant un score de ", gain, " points")
-                    else:
-                    print("Vous avez obtenu ", quantite, " dés ", nbr, ", donnant un score de ", (100 * nbr), " points")
-                    gain = (100 * nbr)
-                while True:
-                    rep=input("Voulez-vous valider ce score ? : (Tappez \"o\" pour valider ou \"n\" pour choisir les dés à relancer)")
-                    if rep=="o":
-                        score += gain
-                        print("Votre score total passe à : ", score)
-                        break
-                    elif rep=="n":
-                        print("Vous conservez votre score de : ", score)
-                        while True:
-                            print("Les valeurs possibles sont :", numeros_presents)
-                            choix=0
-                            choix=input("Choisissez une valeur à conserver : ")
-                            for numero in numeros_presents:
-                                if int(choix) == int(numero):
-                                    print("Vous mettez de côté le ", numero)
-                                    break
-                        break
-                    else:continue
+def analyseGain(valeur_D,gain):
+	resultat_D = collections.Counter(valeur_D)
+	if valeur_D.sort()==[1,2,3,4,5,6]:
+		gain=2000
+	elif resultat_D[1]==6:
+		gain=2000
+	else:
+		for valeur in resultat_D.keys():
+			if resultat_D[valeur] >= 3:
+				if valeur == 1:
+					gain+=(1000+(resultat_D[1]-3)*100)
+				elif valeur == 5:
+					gain+=(500+(resultat_D[5]-3)*50)
+				else:
+					gain+=(valeur*100)
+			else:
+				if valeur == 1:
+					gain+=(resultat_D[1]*100)
+				elif valeur == 5:
+					gain+=(resultat_D[5]*50)
+	return gain
+
+
+def analyseStats(stats_score):
+	print("Fin de partie")
+	stats = collections.Counter(stats_score)
+	print(stats)
+
 
 ##############
 ### Script ###
 ##############
 
-while relance:
-    while i < nb_D:
-        valeur_D.insert(i+1,randrange(1,7))
-        #i += 1
-    analyseScore(valeur_D)
-    relance=False
+while tour < nombre_partie :
+	valeur_D.clear()
+	for i in range (1,nb_D+1):
+		valeur_D.insert(i,randrange(1,7))
+	gain=analyseGain(valeur_D,gain)
+	if gain == 0:
+		stats_score.insert(tour,score)
+		score=0
+		tour += 1
+	elif gain >= 650:
+		score+=gain
+		stats_score.insert(tour,score)
+		score=0
+		gain=0
+		tour+=1
+	else:
+		if score == 0:
+			stats_score.insert(tour,0)
+			gain=0
+			tour += 1
 
+analyseStats(stats_score)
