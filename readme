@@ -1,0 +1,10 @@
+git fetch --all     # pour connaitre les nouvelles branches existantes
+git checkout 1.0    # pour changer de branch
+git pull            # apres un changement de branche, toujours verifier si un commit a eu lieu entre temps
+git branch 1.2      # pour creer branche, penser au checkout pour aller sur cette derniere
+git add --all       # pour tout ajouter au commit
+git commit -m "texte"
+git push
+
+1.0 version Tim
+1.1 version Jordhan
