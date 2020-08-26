@@ -3,6 +3,7 @@
 
 import os
 from random import randrange
+import collections
 
 #################################
 ### Déclaration des variables ###
@@ -104,4 +105,6 @@ for tour in range(1,50):
                 print("On relance les 6 dés")
         elif relance:
                 print("on relance ce qu'il reste")
-print(stats)
+stats.sort()
+affichage_stats=collections.Counter(stats)
+print(affichage_stats)
