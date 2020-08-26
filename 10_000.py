@@ -2,6 +2,7 @@
 #10_000.py créé par GoT le 18.08.2020--13:15:00
 
 import os
+import timeit
 from random import randrange
 import collections
 
@@ -17,7 +18,7 @@ stats = []
 relance = True
 nb_D = 6
 i = 0
-
+start = timeit.timeit()
 
 #############################
 ### Déclaration des types ###
@@ -38,7 +39,7 @@ i = int(i)
 ### Script ###
 ##############
 
-for tour in range(1,50):
+for tour in range(1,50000):
     nb_D = 6
     relance = True
     score = 0
@@ -51,7 +52,7 @@ for tour in range(1,50):
             valeur_D.insert(i+1,randrange(1,7))
             i += 1
 
-        print ("Résultat des dés : ", valeur_D)
+#        print ("Résultat des dés : ", valeur_D)
 
         numeros_presents=set(valeur_D)
         for nbr in range (1,7):
@@ -76,7 +77,7 @@ for tour in range(1,50):
             gain += 2000
             nb_D -= 6
         else:
-            print(calcul_G)
+#            print(calcul_G)
             for de in calcul_G:
                 while de >= 3:
                     de -= 3
@@ -94,17 +95,20 @@ for tour in range(1,50):
                 position += 1
 
         score += gain
-        print(gain)
-        print(score)
+#        print(gain)
+#        print(score)
         if gain ==0:
             relance = False
-            print("Vous avez perdu après avoir fait un score de", score, "points")
+#            print("Vous avez perdu après avoir fait un score de", score, "points")
             stats.insert(tour,score)
         elif nb_D == 0:
                 nb_D = 6
-                print("On relance les 6 dés")
-        elif relance:
-                print("on relance ce qu'il reste")
+#                print("On relance les 6 dés")
+#        elif relance:
+#                print("on relance ce qu'il reste")
 stats.sort()
 affichage_stats=collections.Counter(stats)
 print(affichage_stats)
+end = timeit.timeit()
+
+print(start - end)
