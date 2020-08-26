@@ -14,7 +14,6 @@ valeur_D = []
 calcul_G = []
 relance = True
 nb_D = 6
-D_u = 0          # nombre de D qui ont marqués des points
 i = 0
 
 
@@ -26,7 +25,6 @@ score = int(score)
 gain = int(gain)
 relance = bool(relance)
 nb_D = int(nb_D)
-D_u = int(D_u)
 i = int(i)
 
 
@@ -48,10 +46,6 @@ while relance:
 
     print ("Résultat des dés : ", valeur_D)
 
-    gain = 0
-    position = 0
-    n = 0
-
     numeros_presents=set(valeur_D)
     for nbr in range (1,7):
         for de in valeur_D:
@@ -68,30 +62,29 @@ while relance:
                     calcul_G[4] +=1
                 elif nbr ==6:
                     calcul_G[5] +=1
-                else:
-                    break
+
+    gain = 0
+    position = 0
     if calcul_G == [1,1,1,1,1,1]:
         gain += 2000
         nb_D -= 6
     else:
+        print(calcul_G)
         for de in calcul_G:
             while de >= 3:
                 de -= 3
                 nb_D -= 3
-            if position == 0:
-                gain += 1000
-            elif position >= 0:
-                gain += (position+1)*100
+                if position == 0:
+                    gain += 1000
+                elif position >= 0:
+                    gain += (position+1)*100
             if position == 0:
                 gain += de*100
                 nb_D -= de
             elif position == 4:
                 gain += de*50
                 nb_D -= de
-            else:
-                print(test)
-        position += 1
-#    return.gain
+            position += 1
 
     score += gain
     print(gain)
@@ -99,10 +92,8 @@ while relance:
     if gain ==0:
         relance = False
         print("Vous avez perdu après avoir fait un score de", score, "points")
-    else:
-
-        if nb_D == 0:
+    elif nb_D == 0:
             nb_D = 6
             print("On relance les 6 dés")
-        elif relance:
+    elif relance:
             print("on relance ce qu'il reste")
