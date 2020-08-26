@@ -12,6 +12,7 @@ score = 0        # score avant lancer de D
 gain = 0
 valeur_D = []
 calcul_G = []
+stats = []
 relance = True
 nb_D = 6
 i = 0
@@ -38,6 +39,9 @@ i = int(i)
 
 for tour in range(1,50):
     nb_D = 6
+    relance = True
+    score = 0
+
     while relance:
         i = 0
         del valeur_D[:]
@@ -94,8 +98,10 @@ for tour in range(1,50):
         if gain ==0:
             relance = False
             print("Vous avez perdu après avoir fait un score de", score, "points")
+            stats.insert(tour,score)
         elif nb_D == 0:
                 nb_D = 6
                 print("On relance les 6 dés")
         elif relance:
                 print("on relance ce qu'il reste")
+print(stats)
