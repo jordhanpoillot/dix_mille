@@ -41,7 +41,7 @@ i = int(i)
 while relance:
     i = 0
     del valeur_D[:]
-    del calcul_G[:]
+    calcul_G = [0,0,0,0,0,0]
     while i < nb_D:
         valeur_D.insert(i+1,randrange(1,7))
         i += 1
@@ -72,7 +72,7 @@ while relance:
                     break
     if calcul_G == [1,1,1,1,1,1]:
         gain += 2000
-        n -= 6
+        nb_D -= 6
     else:
         for de in calcul_G:
             while de >= 3:
@@ -80,17 +80,17 @@ while relance:
                 nb_D -= 3
             if position == 0:
                 gain += 1000
-            else:
+            elif position >= 0:
                 gain += (position+1)*100
-                if position == 0:
-                    gain += de*100
-                    nb_D -= de
-                else:
-                    if position == 4:
-                        gain += n*50
-                        nb_D -= de
-                    else:
-           position += 1
+            if position == 0:
+                gain += de*100
+                nb_D -= de
+            elif position == 4:
+                gain += de*50
+                nb_D -= de
+            else:
+                print(test)
+        position += 1
 #    return.gain
 
     score += gain
