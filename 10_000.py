@@ -1,83 +1,108 @@
 #!/usr/bin/python3
 #10_000.py créé par GoT le 18.08.2020--13:15:00
 
+import os
 from random import randrange
-import collections
 
 #################################
 ### Déclaration des variables ###
 #################################
 
-# Gestion du score
-score = 0           # Score personnel du joueur avant le lancer de dés
-gain = 0            # Score obtenu sur un tour après le lancer de dés
+score = 0        # score avant lancer de D
+gain = 0
+valeur_D = []
+calcul_G = []
+relance = True
+nb_D = 6
+D_u = 0          # nombre de D qui ont marqués des points
+i = 0
 
-# Gestion des dés
-valeur_D = []       # La liste représantant le resultat des dés
-nb_D = 6            # Nombre de dés utilisables
-D_u = 0             # Nombre de dés qui ont marqués des points
 
-# Gestion des tours
-tour = 0            # Numéro du premier tour
-nombre_partie = 100 # Nombre de partie pour réaliser des stats
-stats_score = []    # On ajoute le score de chaque partie pour réaliser des stats
+#############################
+### Déclaration des types ###
+#############################
+
+score = int(score)
+gain = int(gain)
+relance = bool(relance)
+nb_D = int(nb_D)
+D_u = int(D_u)
+i = int(i)
+
 
 ################
 ### Methodes ###
 ################
 
-def analyseGain(valeur_D,gain):
-	resultat_D = collections.Counter(valeur_D)
-	if valeur_D.sort()==[1,2,3,4,5,6]:
-		gain=2000
-	elif resultat_D[1]==6:
-		gain=2000
-	else:
-		for valeur in resultat_D.keys():
-			if resultat_D[valeur] >= 3:
-				if valeur == 1:
-					gain+=(1000+(resultat_D[1]-3)*100)
-				elif valeur == 5:
-					gain+=(500+(resultat_D[5]-3)*50)
-				else:
-					gain+=(valeur*100)
-			else:
-				if valeur == 1:
-					gain+=(resultat_D[1]*100)
-				elif valeur == 5:
-					gain+=(resultat_D[5]*50)
-	return gain
-
-
-def analyseStats(stats_score):
-	print("Fin de partie")
-	stats = collections.Counter(stats_score)
-	print(stats)
-
-
 ##############
 ### Script ###
 ##############
 
-while tour < nombre_partie :
-	valeur_D.clear()
-	for i in range (1,nb_D+1):
-		valeur_D.insert(i,randrange(1,7))
-	gain=analyseGain(valeur_D,gain)
-	if gain == 0:
-		stats_score.insert(tour,score)
-		score=0
-		tour += 1
-	elif gain >= 650:
-		score+=gain
-		stats_score.insert(tour,score)
-		score=0
-		gain=0
-		tour+=1
-	else:
-		if score == 0:
-			stats_score.insert(tour,0)
-			gain=0
-			tour += 1
+while relance:
+    i = 0
+    del valeur_D[:]
+    del calcul_G[:]
+    while i < nb_D:
+        valeur_D.insert(i+1,randrange(1,7))
+        i += 1
 
-analyseStats(stats_score)
+    print ("Résultat des dés : ", valeur_D)
+
+    gain = 0
+    position = 0
+    n = 0
+
+    numeros_presents=set(valeur_D)
+    for nbr in range (1,7):
+        for de in valeur_D:
+            if de == nbr:
+                if nbr ==1:
+                    calcul_G[0] +=1
+                elif nbr ==2:
+                    calcul_G[1] +=1
+                elif nbr ==3:
+                    calcul_G[2] +=1
+                elif nbr ==4:
+                    calcul_G[3] +=1
+                elif nbr ==5:
+                    calcul_G[4] +=1
+                elif nbr ==6:
+                    calcul_G[5] +=1
+                else:
+                    break
+    if calcul_G == [1,1,1,1,1,1]:
+        gain += 2000
+        n -= 6
+    else:
+        for de in calcul_G:
+            while de >= 3:
+                de -= 3
+                nb_D -= 3
+            if position == 0:
+                gain += 1000
+            else:
+                gain += (position+1)*100
+                if position == 0:
+                    gain += de*100
+                    nb_D -= de
+                else:
+                    if position == 4:
+                        gain += n*50
+                        nb_D -= de
+                    else:
+           position += 1
+#    return.gain
+
+    score += gain
+    print(gain)
+    print(score)
+    if gain ==0:
+        relance = False
+        print("Vous avez perdu après avoir fait un score de", score, "points")
+    else:
+
+        if nb_D == 0:
+            nb_D = 6
+            print("On relance les 6 dés")
+        elif relance:
+            print("on relance ce qu'il reste")
